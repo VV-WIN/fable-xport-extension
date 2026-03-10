@@ -1,0 +1,27 @@
+{
+  "manifest_version": 1,
+  "name": "Fable Exporter Extension",
+  "version": "0.1.0",
+  "description": "Export your Fable library to StoryGraph compatible CSV",
+  "permissions": [
+    "downloads",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://fable.co/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://fable.co/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [{
+      "resources": ["inject.js"],
+      "matches": ["https://fable.co/*"]
+  }]
+}
