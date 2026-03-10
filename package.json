@@ -1,0 +1,19 @@
+{
+  "name": "fable-xport-extension",
+  "version": "1.0.0",
+  "description": "An unofficial Fable browser extension that exports your Fable library into a CSV file compatible with StoryGraph and Goodreads",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.1.37",
+    "eslint": "^9.39.4",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1"
+  }
+}
