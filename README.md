@@ -20,11 +20,14 @@ This version is optimized for non-technical users:
 3. Open the extension popup.
 4. Leave the defaults as:
    - **Export type:** Goodreads CSV (recommended)
-5. Click **Export account CSV**.
-6. Save the downloaded file.
-7. If you want StoryGraph, first import this file into Goodreads, then use your Goodreads export for StoryGraph import.
-
-Optional: In account mode, use **Choose libraries to export** to select one or more specific lists. Leave all unchecked to export the full account.
+5. Select any specific lists you want to export, or click "Select all" to export all lists in your account.
+6. Click **Export account CSV**. This will generate a CSV file with your entire library (or selected lists) and trigger a download. It may take a moment if you have a large library.
+   - Optional: In account mode, use **Choose libraries to export** to select one or more specific lists. Leave all unchecked to export the full account.
+7. Save the downloaded file.
+8. Additionally, if you have StoryGraph:
+   - First import the fable-export.csv file into Goodreads.
+   - Once the books are imported, use Goodreads' export feature to generate a goodreads_export.csv file.
+   - Then import that file into StoryGraph for the best compatibility. This is necessary because StoryGraph's Goodreads import expects specific fields that are included in the Goodreads CSV export.
 
 ## Export types
 
