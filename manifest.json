@@ -1,27 +1,37 @@
 {
-  "manifest_version": 1,
+  "manifest_version": 3,
   "name": "Fable Exporter Extension",
-  "version": "0.1.0",
-  "description": "Export your Fable library to StoryGraph compatible CSV",
+  "version": "1.1.0",
+  "description": "Export your signed-in Fable library to Goodreads-compatible CSV without manual auth tokens",
   "permissions": [
     "downloads",
-    "activeTab",
-    "scripting"
+    "cookies",
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
-    "https://fable.co/*"
+    "https://fable.co/*",
+    "https://*.fable.co/*",
+    "https://api.fable.co/*"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "public/popup.html",
+    "default_title": "Fable Xport"
+  },
+  "background": {
+    "service_worker": "src/background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://fable.co/*"],
-      "js": ["content.js"]
+      "matches": [
+        "https://fable.co/*",
+        "https://*.fable.co/*"
+      ],
+      "js": [
+        "src/shared.js",
+        "src/content.js"
+      ],
+      "run_at": "document_idle"
     }
-  ],
-  "web_accessible_resources": [{
-      "resources": ["inject.js"],
-      "matches": ["https://fable.co/*"]
-  }]
+  ]
 }

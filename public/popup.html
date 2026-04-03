@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark" />
+		<title>Fable Xport</title>
+		<style>
+			:root {
+				color-scheme: dark;
+				--bg: #0e1117;
+				--bg-accent: rgba(255, 184, 107, 0.16);
+				--panel: rgba(15, 20, 29, 0.92);
+				--panel-border: rgba(255, 255, 255, 0.08);
+				--text: #f5f0e8;
+				--muted: #b0b7c3;
+				--accent: #ffb86b;
+				--accent-strong: #ff9158;
+				--success: #7dcfb6;
+				--danger: #ff7f7f;
+				--shadow: 0 18px 55px rgba(0, 0, 0, 0.42);
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				min-width: 380px;
+				min-height: 100vh;
+				font-family: "Avenir Next", "Segoe UI", sans-serif;
+				color: var(--text);
+				background:
+					radial-gradient(circle at top left, rgba(255, 184, 107, 0.18), transparent 36%),
+					radial-gradient(circle at top right, rgba(125, 207, 182, 0.12), transparent 30%),
+					linear-gradient(160deg, #11151c 0%, #0e1117 55%, #1a1210 100%);
+			}
+
+			main {
+				padding: 18px;
+			}
+
+			.shell {
+				border: 1px solid var(--panel-border);
+				border-radius: 20px;
+				overflow: hidden;
+				background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+				box-shadow: var(--shadow);
+				animation: rise 220ms ease-out;
+			}
+
+			.hero {
+				padding: 18px 18px 14px;
+				background:
+					linear-gradient(135deg, rgba(255, 184, 107, 0.16), rgba(255, 145, 88, 0.08)),
+					rgba(17, 21, 28, 0.9);
+				border-bottom: 1px solid var(--panel-border);
+			}
+
+			.eyebrow {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 5px 10px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.06);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				color: var(--accent);
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				font-size: 11px;
+				font-weight: 700;
+			}
+
+			h1 {
+				margin: 12px 0 8px;
+				font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+				font-size: 23px;
+				line-height: 1.12;
+				letter-spacing: -0.02em;
+			}
+
+			.description {
+				margin: 0;
+				color: var(--muted);
+				font-size: 13px;
+				line-height: 1.45;
+			}
+
+			form {
+				padding: 16px 18px 18px;
+				background: var(--panel);
+			}
+
+			.field {
+				margin-bottom: 14px;
+			}
+
+			.field label {
+				display: block;
+				margin-bottom: 8px;
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 700;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+
+			select,
+			button {
+				width: 100%;
+				border-radius: 14px;
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				font: inherit;
+			}
+
+			select {
+				padding: 11px 12px;
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.04);
+				outline: none;
+			}
+
+			select:focus {
+				border-color: rgba(255, 184, 107, 0.55);
+				box-shadow: 0 0 0 3px rgba(255, 184, 107, 0.14);
+			}
+
+			select:disabled {
+				opacity: 0.7;
+			}
+
+			button {
+				margin-top: 4px;
+				padding: 12px 14px;
+				color: #1d130d;
+				font-weight: 800;
+				background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+				cursor: pointer;
+				transition: transform 140ms ease, filter 140ms ease, opacity 140ms ease;
+			}
+
+			button:hover:not(:disabled) {
+				transform: translateY(-1px);
+				filter: brightness(1.03);
+			}
+
+			button:disabled {
+				opacity: 0.65;
+				cursor: progress;
+			}
+
+			.option-card {
+				margin-top: 6px;
+				padding: 14px;
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.02);
+			}
+
+			.option-card[hidden] {
+				display: none;
+			}
+
+			.list-picker {
+				max-height: 170px;
+				overflow: auto;
+				padding-right: 6px;
+			}
+
+			.list-picker-empty {
+				color: rgba(176, 183, 195, 0.86);
+				font-size: 12px;
+				line-height: 1.4;
+			}
+
+			.list-option {
+				display: flex;
+				align-items: flex-start;
+				gap: 8px;
+				padding: 8px 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+			}
+
+			.list-option:last-child {
+				border-bottom: 0;
+			}
+
+			.list-option input {
+				margin-top: 3px;
+			}
+
+			.list-option strong {
+				display: block;
+				font-size: 12px;
+				line-height: 1.3;
+			}
+
+			.list-option span {
+				display: block;
+				color: rgba(176, 183, 195, 0.82);
+				font-size: 11px;
+			}
+
+			.list-actions {
+				display: flex;
+				gap: 8px;
+				margin-top: 10px;
+			}
+
+			.list-actions button {
+				margin-top: 0;
+				padding: 8px 10px;
+				font-size: 11px;
+				font-weight: 700;
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.08);
+				border: 1px solid rgba(255, 255, 255, 0.14);
+			}
+
+			.toggle {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				cursor: pointer;
+			}
+
+			.toggle-copy {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				max-width: 240px;
+			}
+
+			.toggle-title {
+				color: var(--text);
+				font-size: 13px;
+				font-weight: 700;
+				line-height: 1.3;
+			}
+
+			.toggle-desc {
+				color: rgba(176, 183, 195, 0.88);
+				font-size: 11px;
+				line-height: 1.4;
+			}
+
+			.switch {
+				position: relative;
+				display: inline-flex;
+				align-items: center;
+				flex: 0 0 auto;
+			}
+
+			.switch input {
+				position: absolute;
+				opacity: 0;
+				width: 1px;
+				height: 1px;
+				pointer-events: none;
+			}
+
+			.track {
+				position: relative;
+				width: 48px;
+				height: 28px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.12);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				transition: background 140ms ease, border-color 140ms ease;
+			}
+
+			.thumb {
+				position: absolute;
+				top: 4px;
+				left: 4px;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				background: var(--text);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+				transition: transform 140ms ease;
+			}
+
+			.switch input:checked + .track {
+				background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+				border-color: rgba(255, 184, 107, 0.6);
+			}
+
+			.switch input:checked + .track .thumb {
+				transform: translateX(20px);
+			}
+
+			.helper {
+				margin-top: 10px;
+				color: rgba(176, 183, 195, 0.86);
+				font-size: 11px;
+				line-height: 1.45;
+			}
+
+			.status {
+				margin-top: 14px;
+				padding: 11px 12px;
+				border-radius: 14px;
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				background: rgba(255, 255, 255, 0.03);
+				color: var(--muted);
+				font-size: 12px;
+				line-height: 1.45;
+				min-height: 44px;
+			}
+
+			.status[data-state="busy"] {
+				color: var(--text);
+				border-color: rgba(255, 184, 107, 0.35);
+			}
+
+			.status[data-state="success"] {
+				color: var(--success);
+				border-color: rgba(125, 207, 182, 0.3);
+			}
+
+			.status[data-state="error"] {
+				color: var(--danger);
+				border-color: rgba(255, 127, 127, 0.3);
+			}
+
+			.footnote {
+				margin-top: 10px;
+				color: rgba(176, 183, 195, 0.82);
+				font-size: 11px;
+				line-height: 1.4;
+			}
+
+			@keyframes rise {
+				from {
+					opacity: 0;
+					transform: translateY(8px);
+				}
+
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<section class="shell">
+				<header class="hero">
+					<div class="eyebrow">Fable Xport</div>
+					<h1>Export your Fable library</h1>
+					<p class="description">No auth tokens, no DevTools, no copy-pasting headers. Just sign in to Fable in Chrome and export a CSV.</p>
+				</header>
+
+				<form id="export-form">
+					<div class="field">
+						<label for="format">Export type</label>
+						<select id="format" name="format">
+							<option value="universal" selected>Goodreads CSV (recommended)</option>
+							<option value="detailed">Detailed Fable CSV</option>
+						</select>
+					</div>
+					<p class="helper">Exports from your signed-in Fable account. Use list selection below to export everything or just specific libraries.</p>
+
+					<section id="account-options" class="option-card" aria-labelledby="list-picker-title">
+						<span id="list-picker-title" class="toggle-title">Choose libraries to export</span>
+						<div id="list-picker-help" class="helper">Leave everything unchecked to export all lists, or select specific lists below.</div>
+						<div id="account-list-picker" class="list-picker" role="group" aria-label="Choose Fable lists to export"></div>
+						<div class="list-actions">
+							<button id="select-all-lists" type="button">Select all</button>
+							<button id="clear-all-lists" type="button">Clear all</button>
+						</div>
+					</section>
+
+					<button id="export" type="submit">Export account CSV</button>
+
+					<div id="status" class="status" role="status" aria-live="polite">No tokens needed. Sign in to Fable in Chrome, then click Export.</div>
+					<p class="footnote">
+						Use Goodreads CSV for direct Goodreads import. 
+						For StoryGraph, first import into Goodreads and then import your Goodreads export into StoryGraph.
+						Use detailed export when you want richer Fable metadata in a spreadsheet.
+					</p>
+					<b><p class="footnote" style="text-align: center;">Made with &#129653; by <a href="https://github.com/VV-WIN/fable-xport-extension" target="_blank" rel="noreferrer">Vivi</a></p></b>
+				</form>
+			</section>
+		</main>
+
+		<script src="../src/shared.js"></script>
+		<script src="../src/popup.js"></script>
+	</body>
+</html>
