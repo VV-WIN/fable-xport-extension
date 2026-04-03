@@ -5,4 +5,3 @@ Features
 • One-click export
 • No API tokens
 • No CLI required
-• Direct StoryGraph import
